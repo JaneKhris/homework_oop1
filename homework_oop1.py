@@ -26,7 +26,11 @@ class Student:
         self.grade_average = statistics.mean(list_grades)  
         return self.grade_average
 
+    def __lt__(self, other):
+        return self.grade_average < other.grade_average
 
+    def __eq__(self, other):
+        return self.grade_average == other.grade_average
                          
     def __str__(self) -> str:
         self.average_func()  
@@ -35,7 +39,9 @@ class Student:
 Фамилия: {self.surname}
 Cредняя оценка за домашние задания: {self.grade_average}
 Курсы в процессе изучения: {', '.join(self.courses_in_progress)}
-Завершенные курсы: {', '.join(self.finished_courses)}'''                
+Завершенные курсы: {', '.join(self.finished_courses)}'''  
+
+
         
 class Mentor:
     def __init__(self, name, surname):
@@ -57,6 +63,13 @@ class Lecturer(Mentor):
         self.grade_average = statistics.mean(list_grades)  
         return self.grade_average
 
+    def __lt__(self, other):
+        return self.grade_average < other.grade_average
+
+    def __eq__(self, other):
+        return self.grade_average == other.grade_average
+
+
     def __str__(self) -> str:
         self.average_func()
         return f'''
@@ -64,18 +77,7 @@ class Lecturer(Mentor):
 Фамилия: {self.surname}
 Cредняя оценка за лекции: {self.grade_average}'''
 
-    def compare_lector(lecturer1, lecturer2):
-        if isinstance(lecturer1,Lecturer) and isinstance(lecturer2,Lecturer):
-            lecturer1.average_func()
-            lecturer2.average_func()
-            if lecturer1.grade_average > lecturer2.grade_average:
-                print(f'Средняя оценка студанта {lecturer1.name} {lecturer1.surname} выше средней оценки студента {lecturer2.name} {lecturer2.surname}')
-            elif lecturer1.grade_average < lecturer2.grade_average:
-                print(f'Средняя оценка студанта {lecturer2.name} {lecturer2.surname} выше средней оценки студента {lecturer1.name} {lecturer1.surname}')
-            else:
-                print(f'Средняя оценка студанта {lecturer1.name} {lecturer1.surname} и средняя оценка студента {lecturer2.name} {lecturer2.surname} равны')    
-        else:
-            return 'Ошибка'
+
 
 class Reviewer(Mentor):   
     def rate_stud(self, student, course, grade):
@@ -97,12 +99,12 @@ def compare_student(student1, student2):
     if isinstance(student1,Student) and isinstance(student2,Student):
         student1.average_func()
         student2.average_func()
-        if student1.grade_average > student2.grade_average:
-            print(f'Средняя оценка студанта {student1.name} {student1.surname} выше средней оценки студента {student2.name} {student2.surname}')
-        elif student1.grade_average < student2.grade_average:
-            print(f'Средняя оценка студанта {student2.name} {student2.surname} выше средней оценки студента {student1.name} {student1.surname}')
-        else:
+        if student1 == student2:
             print(f'Средняя оценка студанта {student1.name} {student1.surname} и средняя оценка студента {student2.name} {student2.surname} равны')
+        elif student1 < student2:
+            print(f'Средняя оценка студанта {student1.name} {student1.surname} ниже средней оценки студента {student2.name} {student2.surname}')
+        else:
+            print(f'Средняя оценка студанта {student1.name} {student1.surname} выше средней оценки студента {student2.name} {student2.surname}')
     else:
         return 'Ошибка'   
 
@@ -110,12 +112,13 @@ def compare_lector(lecturer1, lecturer2):
     if isinstance(lecturer1,Lecturer) and isinstance(lecturer2,Lecturer):
         lecturer1.average_func()
         lecturer2.average_func()
-        if lecturer1.grade_average > lecturer2.grade_average:
-            print(f'Средняя оценка лектора {lecturer1.name} {lecturer1.surname} выше средней оценки лектора {lecturer2.name} {lecturer2.surname}')
-        elif lecturer1.grade_average < lecturer2.grade_average:
-            print(f'Средняя оценка лектора {lecturer2.name} {lecturer2.surname} выше средней оценки лектора {lecturer1.name} {lecturer1.surname}')
+        if lecturer1 == lecturer2:
+            print(f'Средняя оценка лектора {lecturer1.name} {lecturer1.surname} и средняя оценка лектора {lecturer2.name} {lecturer2.surname} равны')
+        elif lecturer1 < lecturer2:
+            print(f'Средняя оценка лектора {lecturer1.name} {lecturer1.surname} ниже средней оценки лектора {lecturer2.name} {lecturer2.surname}')
         else:
-            print(f'Средняя оценка лектора {lecturer1.name} {lecturer1.surname} и средняя оценка лектора {lecturer2.name} {lecturer2.surname} равны')    
+            print(f'Средняя оценка лектора {lecturer1.name} {lecturer1.surname} выше средней оценки лектора {lecturer2.name} {lecturer2.surname}')
+                
     else:
         return 'Ошибка'
  
